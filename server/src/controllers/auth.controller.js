@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/User.js";
 import jwt from "jsonwebtoken"
 
 
@@ -18,7 +18,7 @@ export const handleSignup=async(req,res)=>{
         return res.status(400).json({ message: "Invalid email format" });
         }
 
-        const existingUser=User.findOne({email})
+        const existingUser=await User.findOne({email})
         if(existingUser){
             return res.status(400).json({message:"Email Already Exists, please use a different one"})
         }
@@ -27,7 +27,7 @@ export const handleSignup=async(req,res)=>{
 
         const randomAvatar=`https://avatar.iran.liara.run/public/${index}.png`
 
-        const newUser= User.create({
+        const newUser=await User.create({
             email,
             fullName,
             password,
