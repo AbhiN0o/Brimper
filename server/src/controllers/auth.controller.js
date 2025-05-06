@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken"
-
+import bcrypt from "bcrypt"
+import { upsertStreamUser } from "../lib/stream.js";
 
 export const handleSignup=async(req,res)=>{
     const {email,password,fullName}=req.body
@@ -34,7 +35,16 @@ export const handleSignup=async(req,res)=>{
             profilePic:randomAvatar
         })
 
-        //todo :create user in stream as well
+        try {
+            await upsertStreamUser({
+                id:newUser._id.toString(),
+                name:newUser.fullName,
+                image:newUser.profilePic || ""
+            })
+            console.log(`Stream user created for ${newUser._id}`)
+        } catch (error) {
+            console.log("Error creating stream user")
+        }
 
         const token = jwt.sign({userId:newUser._id},process.env.JWT_SECRET,{
             expiresIn:"7d",
@@ -55,9 +65,39 @@ export const handleSignup=async(req,res)=>{
 }
 
 export const handleLogin=async(req,res)=>{
+    try {
+        const {email,password}=req.body
+        if(!email || !password){
+            return res.status(400).json({message:"All fields are required"});
+        }
+        const user=await User.findOne({email});
+        if(!user){
+            return res.status(401).json({message:"No user found ,please sign up"})
+        }
+        const isPasswordCorrect= await user.matchPassword(password);
+        if(!isPasswordCorrect){
+            return res.status(400).json({message:"Invalid Credentilas"});
+        }
+        
+        const token=jwt.sign({userId:user._id},process.env.JWT_SECRET,{
+            expiresIn:"7d"
+        })
 
+        res.cookie("token",token,{
+            maxAge:7*24*60*60*100,
+            httpOnly:true,
+            sameSite:"strict",
+            secure:process.env.NODE_ENV==="production"
+        })
+        res.status(200).json({success:true,user,message:"Succesfully logged in!"})
+
+    } catch (error) {
+        console.log("Error in login controller",error);
+        res.status(500).json({message:"Internal Server Error"})
+    }
 }
 
 export const handleLogout=async(req,res)=>{
-
+    res.clearCookie("token");
+    res.status(200).json({success:true,message:"Logged Out Succesfully"})
 }
