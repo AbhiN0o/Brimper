@@ -1,10 +1,9 @@
 
-
 function App() {
   
   return (
-    <div className="h-screen bg-red-300">
-
+    <div className="h-screen">
+      hello
     </div>
   )
 }
