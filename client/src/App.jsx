@@ -7,8 +7,13 @@ import CallPage from "./pages/CallPage.jsx"
 import ChatPage from "./pages/ChatPage.jsx"
 import OnboardingPage from "./pages/OnboardingPage.jsx"
 import toast, {Toaster} from "react-hot-toast"
+import {useQuery} from "@tanstack/react-query"
+
 function App() {
-  
+
+  const {data} = useQuery()
+
+
   return (
     <div className="h-screen">
       <Routes>
