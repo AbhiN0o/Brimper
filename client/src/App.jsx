@@ -27,8 +27,8 @@ function App() {
     <div className="h-screen">
       <Routes>
         <Route path="/" element={isAuthenticated?(isOnboarded?<Homepage/>:<Navigate to={"/onboarding"}/>):<Navigate to={"/login"}/>}></Route>
-        <Route path="/login" element={!isAuthenticated?<LoginPage />:<Navigate to={"/"}/>}></Route>
-        <Route path="/signup" element={!isAuthenticated?<SignupPage />:<Navigate to={"/"}/>}></Route>
+        <Route path="/login" element={!isAuthenticated?<LoginPage />:(!isOnboarded?<Navigate to={"/onboarding"}/>:<Navigate to={"/"}/>)}></Route>
+        <Route path="/signup" element={!isAuthenticated?<SignupPage />:<Navigate to={isOnboarded?"/":"/onboarding"}/>}></Route>
         <Route path="/notifications" element={isAuthenticated?<NotificationsPage />:<Navigate to={"/login"}/>}></Route>
         <Route path="/call" element={isAuthenticated?<CallPage />:<Navigate to={"/login"}/>}></Route>
         <Route path="/chat" element={isAuthenticated?<ChatPage />:<Navigate to={"/login"}/>}></Route>
