@@ -10,7 +10,7 @@ export const getRecommendedUsers = async(req,res) => {
             $and:[
                 {_id:{$ne:currentUserId}},
                 {_id:{$nin: currentUser.friends}},
-                {inOnboarded:true}
+                {isOnboarded:true}
             ]
         })
 
