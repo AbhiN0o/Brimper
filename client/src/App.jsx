@@ -11,6 +11,7 @@ import {useQuery} from "@tanstack/react-query"
 import {axiosInstance} from "./lib/axios.js"
 import PageLoader from "./components/PageLoader.jsx"
 import useAuthUser from "./hooks/useAuthUser.js"
+import Layout from "./components/Layout.jsx"
 function App() {
 
   const {isLoading,authUser} =useAuthUser()
@@ -24,9 +25,9 @@ function App() {
   )
 
   return (
-    <div className="h-screen">
+    <div className="h-screen" data-theme="forest">
       <Routes>
-        <Route path="/" element={isAuthenticated?(isOnboarded?<Homepage/>:<Navigate to={"/onboarding"}/>):<Navigate to={"/login"}/>}></Route>
+        <Route path="/" element={isAuthenticated?(isOnboarded?<Layout showSidebar={true} ><Homepage/></Layout >:<Navigate to={"/onboarding"}/>):<Navigate to={"/login"}/>}></Route>
         <Route path="/login" element={!isAuthenticated?<LoginPage />:(!isOnboarded?<Navigate to={"/onboarding"}/>:<Navigate to={"/"}/>)}></Route>
         <Route path="/signup" element={!isAuthenticated?<SignupPage />:<Navigate to={isOnboarded?"/":"/onboarding"}/>}></Route>
         <Route path="/notifications" element={isAuthenticated?<NotificationsPage />:<Navigate to={"/login"}/>}></Route>
