@@ -12,6 +12,7 @@ import {axiosInstance} from "./lib/axios.js"
 import PageLoader from "./components/PageLoader.jsx"
 import useAuthUser from "./hooks/useAuthUser.js"
 import Layout from "./components/Layout.jsx"
+import { useThemeStore } from "../store/useThemeStore.js"
 function App() {
 
   const {isLoading,authUser} =useAuthUser()
@@ -20,12 +21,15 @@ function App() {
   const isOnboarded= authUser?.isOnboarded
 
   console.log(authUser)
+
+  const {theme}=useThemeStore()
+  
   if(isLoading) return(
     <PageLoader />
   )
 
   return (
-    <div className="h-screen" data-theme="forest">
+    <div className="h-screen" data-theme={theme}>
       <Routes>
         <Route path="/" element={isAuthenticated?(isOnboarded?<Layout showSidebar={true} ><Homepage/></Layout >:<Navigate to={"/onboarding"}/>):<Navigate to={"/login"}/>}></Route>
         <Route path="/login" element={!isAuthenticated?<LoginPage />:(!isOnboarded?<Navigate to={"/onboarding"}/>:<Navigate to={"/"}/>)}></Route>
