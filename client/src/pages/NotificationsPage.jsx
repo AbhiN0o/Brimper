@@ -11,7 +11,7 @@ export default function NotificationsPage () {
     queryKey:["friendRequests"],
     queryFn:getFriendRequests
   })
-
+  console.log(friendRequests)
   const {mutate:acceptRequestMutation,isPending}=useMutation({
     mutationFn:acceptFriendRequest,
     onSuccess:()=>{
@@ -20,8 +20,8 @@ export default function NotificationsPage () {
     }
   })
 
-  const incomingRequests=friendRequests?.incomingRequests || []
-  const acceptedRequests=friendRequests?.acceptedRequests || []
+  const incomingRequests=friendRequests?.incomingReqs || []
+  const acceptedRequests=friendRequests?.acceptedReqs || []
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="container max-w-4xl mx-auto space-y-8">
