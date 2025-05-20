@@ -4,9 +4,9 @@ import Navbar from "./Navbar.jsx"
 const Layout = ({children,showSidebar=false}) => {
   return (
     <div className="min-h-screen">
-      <div className="flex">
+      <div className="flex h-screen overflow-hidden">
         {showSidebar && <Sidebar />}
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 overflow-hidden">
             <Navbar/>
             <main className="flex-1 overflow-y-auto">
                 {children}
