@@ -13,6 +13,7 @@ import PageLoader from "./components/PageLoader.jsx"
 import useAuthUser from "./hooks/useAuthUser.js"
 import Layout from "./components/Layout.jsx"
 import { useThemeStore } from "../store/useThemeStore.js"
+import FriendsPage from "./pages/FriendsPage.jsx"
 function App() {
 
   const {isLoading,authUser} =useAuthUser()
@@ -37,6 +38,7 @@ function App() {
         <Route path="/call/:id" element={isAuthenticated?(isOnboarded?<CallPage />:<Navigate to={"/onboarding"}/>):<Navigate to={"/login"}/>}></Route>
         <Route path="/chat/:id" element={isAuthenticated?(isOnboarded?<Layout showSidebar={false}><ChatPage/></Layout>:<Navigate to={"/onboarding"}/>):<Navigate to={"/login"}/>}></Route>
         <Route path="/onboarding" element={isAuthenticated?(!isOnboarded?<OnboardingPage />:<Navigate to={"/"} />):<Navigate to={"/login"}/>}></Route>
+        <Route path="/friends" element={isAuthenticated?(!isOnboarded?<OnboardingPage />:<Layout showSidebar={true}><FriendsPage /></Layout>):<Navigate to={"/login"}/>}></Route>
       </Routes>
       <Toaster />
     </div>

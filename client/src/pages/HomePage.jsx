@@ -56,7 +56,7 @@ const HomePage = () => {
           <UsersIcon className='mr-2 size-4'/>
           Friend Request
           </Link>
-        </div>
+        </div> 
         {loadingFriends ? (
           <div className='flex justify-center py-12'>
             <span className='loading loading-spinner loading-lg'></span>
